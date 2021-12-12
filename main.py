@@ -103,13 +103,14 @@ class PlexCleaner:
         return high_rating
 
     def delete(self, status: WatchStatus):
-        fetch_item(self.plex, status.key).delete()
+        ...
+        # fetch_item(self.plex, status.key).delete()
 
     def delete_rule(self, ws: WatchStatus):
         all_watched = ws.watched_count >= self.user_counts
         any_watched = ws.watched_count > 0
         days_last_watched = (datetime.now() - ws.lasted_viewed_at).days if ws.lasted_viewed_at else 0
-        delete_at = lambda lasted_view_at, keeping_days: (lasted_view_at-timedelta(days=keeping_days)).date().strftime('%Y-%m-%d')
+        delete_at = lambda lasted_view_at, keeping_days: (lasted_view_at+timedelta(days=keeping_days)).date().strftime('%Y-%m-%d')
         rating = ws.high_rating
         if ws.is_music():
             if 0 < rating < 3: 
